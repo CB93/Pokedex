@@ -1,13 +1,16 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000;
 
-//let pokemon = require('./pokemon.model');
 
-app.use(cors());
+
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+  });
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/pokemon', { 
@@ -20,8 +23,10 @@ connection.on('open', function() {
 
 app.get('/', function(req, res) {
 	connection.db.collection("pokemon", function(err, collection){
+        if (err) throw err;
         collection.find({}).toArray(function(err, data){
-            res.send(data); // it will print your collection data
+            if (err) throw err;
+            res.send(data); 
         })
     });
 });
