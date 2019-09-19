@@ -38,13 +38,14 @@ class Pokedex extends Component {
       			</div>
 			)
 		} else {
+			console.log(pokedexData.data)
 			return ( 
 				<div>
-					{pokedexData.data.map(ui => {
+					{pokedexData.data.map(pokemon => {
 						return 	<Pokecard 
-									key={ui._id} 
-									name={ui.Name}
-									generation={ui.Generation}/>
+									key={pokemon._id} 
+									name={pokemon.Name}
+									number={pokemon.Number}/>
 						})
 					}
 				</div>
